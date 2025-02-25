@@ -1,7 +1,9 @@
 import { cookies } from "next/headers";
 
 export const authorizingUsers = async (): Promise<any> => {
-  const accessToken = (await cookies()).get("accessToken")?.value;
+  const value = (await cookies()).get("user")?.value as string;
+  if (!value) return null;
+  const accessToken = JSON.parse(value).accessToken;
 
   const res = await fetch("https://dummyjson.com/auth/users", {
     method: "GET" /* or POST/PUT/PATCH/DELETE */,
